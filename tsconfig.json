@@ -8,11 +8,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./src", // Base directory for imports
+    "baseUrl": "./", // Base directory for imports
     "paths": {
       "@/*": [
-        "*"
-      ] // Alias for src/*
+        "src/*"
+      ]
     }
   },
   "include": [
