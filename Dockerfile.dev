@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install nodemon globally for hot-reloading
-RUN npm install -g nodemon
+RUN npm install -g nodemon ts-node
 
 # migrate database
 # RUN prisma generate

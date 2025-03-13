@@ -1,13 +1,18 @@
 import 'module-alias/register';
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import userRoutes from '@/routes/userRoutes';
-import globalErrorHandler from '@/utils/globalErrorHandler';
+import routes from '@/routes/index';
+// import globalErrorHandler from '@/utils/globalErrorHandler';
 import AppError from '@/utils/AppError';
+import { setupSwagger } from "@/docs/swagger"
+import morgan from "morgan"
+import passport from 'passport';
+// import '@/utils/passport';
+import session from 'express-session';
+import { config } from "@/constants/index"
+// import config from "@/constants"
 
-dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();
@@ -30,10 +35,29 @@ process.on('uncaughtException', (err: Error) => {
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan('combined'))
+
+// Session middleware
+app.use(
+    session({
+        secret: config.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: config.NODE_ENV === 'production', // Only secure in production
+            httpOnly: true, // Prevent XSS attacks
+            sameSite: 'lax' // Protect against CSRF
+        }
+    })
+);
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 
-app.use('/api', userRoutes);
-app.use(globalErrorHandler)
+app.use('/api', routes);
+setupSwagger(app);
 
 // 404 Handler
 app.all('*', (req, res, next) => {
@@ -41,7 +65,9 @@ app.all('*', (req, res, next) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
+app.listen(config.PORT, () => {
+    // Your application code here
+    console.log('Application started with config Loaded up✅');
+    console.log(`Server running on port ${config.PORT}`);
 });
