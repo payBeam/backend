@@ -1,10 +1,12 @@
 import GoogleStrategy from "passport-google-oauth20"
 import { config } from "@/constants";
 import passport from "passport";
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
 
 const prisma = new PrismaClient();
+
+type SerializedUser = { id: string };
 
 
 // Configure Google OAuth
@@ -17,13 +19,18 @@ passport.use(new GoogleStrategy.Strategy({
         try {
 
             // check if a user exists with that provider or if that provider with id exists
-            let user = await prisma.authProvider.findFirst({
+            let user = await prisma.user.findFirst({
                 where: {
-                    provider: 'google',
-                    providerId: profile.id
+                    authProviders: {
+                        some: {  // Use `some` to check if any authProvider matches
+                            provider: 'google',
+                            providerId: profile.id
+                        }
+                    }
                 },
-                include: { user: true }
+                include: { authProviders: true }
             });
+
             // if not, create user provider
             if (!user) {
                 let newUser = await prisma.user.create({
@@ -42,6 +49,7 @@ passport.use(new GoogleStrategy.Strategy({
             }
             // if so, return user
             console.log("profile", user);
+            return done(null, user);
         } catch (error) {
             return done(error, false);
         }
@@ -51,16 +59,16 @@ passport.use(new GoogleStrategy.Strategy({
 
 
 // Serialize user
-passport.serializeUser((user, done) => {
-    // done(null, user.id);
-    // TODO
-    done(null, user);
-
+passport.serializeUser((user: any, done) => {
+    done(null, { id: user.id } as SerializedUser);
 });
 
-passport.deserializeUser((user: any, done) => {
-    // TODO Retrieve user from DB here (example)
-    // const user = { id }; // Replace with actual DB fetch
-    // done(null, user);
-    return done(null, user);
+
+passport.deserializeUser(async (serializedUser: SerializedUser, done) => {
+    try {
+        const user = await prisma.user.findUnique({ where: { id: serializedUser.id } });
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
 });
