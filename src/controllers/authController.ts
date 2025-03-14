@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 
-const prisma = new PrismaClient();
 
 export const handleGetAuthLink = async (req: Request, res: Response, next: NextFunction) => {
     console.log("🔄 Redirecting to Google OAuth...");
@@ -12,12 +10,15 @@ export const handleGetAuthLink = async (req: Request, res: Response, next: NextF
 export const handleRedirect = (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate("google", { failureRedirect: "/" }, (err, user, info) => {
         if (err) return next(err); // Handle errors
-        if (!user) return res.redirect("/"); // If authentication fails, redirect to home
+        if (!user)
+            return res.status(401).json({ mesage: "an error occured, authntication failed" }); // If authentication fails, redirect to home
 
         // Log the user in
         req.logIn(user, (err) => {
             if (err) return next(err);
-            return res.redirect("/dashboard"); // Redirect after login
+            return res.status(200).json({
+                data: user
+            })
         });
     })(req, res, next);
 };

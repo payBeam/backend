@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   email     String?  @unique
   password  String?
   createdAt DateTime @default(now())
@@ -25,10 +25,10 @@ model User {
 }
 
 model AuthProvider {
-  id         Int     @id @default(autoincrement())
+  id         String     @id @default(uuid())
   provider   String // "google", "local", "facebook", etc.
   providerId String? // ID from OAuth provider (Google ID, Facebook ID, etc.)
-  userId     Int     @unique
+  userId     String     @unique
   user       User    @relation(fields: [userId], references: [id])
 }
 
@@ -36,7 +36,7 @@ model Transaction {
   id        Int      @id @default(autoincrement())
   amount    Float
   currency  String
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }

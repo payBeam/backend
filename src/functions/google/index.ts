@@ -1,6 +1,10 @@
 import GoogleStrategy from "passport-google-oauth20"
 import { config } from "@/constants";
 import passport from "passport";
+import { PrismaClient } from '@prisma/client';
+
+
+const prisma = new PrismaClient();
 
 
 // Configure Google OAuth
@@ -9,11 +13,35 @@ passport.use(new GoogleStrategy.Strategy({
     clientSecret: config.GOOGLE_CLIENT_SECRET,
     callbackURL: config.GOOGLE_REDIRECT_URL
 },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
         try {
 
-            console.log("profile", profile);
-            return done(null, profile);
+            // check if a user exists with that provider or if that provider with id exists
+            let user = await prisma.authProvider.findFirst({
+                where: {
+                    provider: 'google',
+                    providerId: profile.id
+                },
+                include: { user: true }
+            });
+            // if not, create user provider
+            if (!user) {
+                let newUser = await prisma.user.create({
+                    data: {
+                        email: profile?.emails?.[0]?.value ?? "", // Ensure email exists, default to empty string
+
+                        authProviders: {
+                            create: {
+                                provider: profile.provider,  // Google OAuth doesn't return `profile.provider`
+                                providerId: profile.id,
+                            }
+                        }
+                    }
+                });
+                return done(null, newUser);
+            }
+            // if so, return user
+            console.log("profile", user);
         } catch (error) {
             return done(error, false);
         }
