@@ -13,30 +13,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ACCOUNTS
 model User {
-  id        String      @id @default(uuid())
-  email     String?  @unique
+  id        String    @id @default(uuid())
+  email     String?   @unique
   password  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  merchant  Merchant?
 
   authProviders AuthProvider[]
-  transaction   Transaction[]
+}
+
+model Merchant {
+  id          String  @id
+  user        User    @relation(fields: [id], references: [id])
+  verified    Boolean @default(false)
+  name        String
+  description String
+
+  invoice Invoice[]
 }
 
 model AuthProvider {
-  id         String     @id @default(uuid())
+  id         String  @id @default(uuid())
   provider   String // "google", "local", "facebook", etc.
   providerId String? // ID from OAuth provider (Google ID, Facebook ID, etc.)
-  userId     String     @unique
+  userId     String  @unique
   user       User    @relation(fields: [userId], references: [id])
 }
 
-model Transaction {
-  id        Int      @id @default(autoincrement())
-  amount    Float
-  currency  String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+// FINANCES
+model Invoice {
+  id          String      @id @default(ulid())
+  amount      Float
+  token       TokenType   @default(USDC)
+  title       String?
+  description String?
+  paymentMode PaymentMode
+  status      Status      @default(Pending)
+
+  updatedAt  DateTime  @updatedAt
+  payee      Payee[]
+  merchant   Merchant? @relation(fields: [merchantId], references: [id])
+  merchantId String?
+}
+
+model Payee {
+  id        String    @id @default(ulid())
+  address   String
+  token     TokenType
+  status    Status    @default(Pending)
+  invoiceId String
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+}
+
+//ENUMs
+enum TokenType {
+  USDC
+  USDT
+  XLM
+}
+
+enum PaymentMode {
+  PayYourSelf
+  SplitPay
+  TransferInvoice
+}
+
+enum Status {
+  Failed
+  Pending
+  Success
+  Cancelled
+  Refunded
 }
