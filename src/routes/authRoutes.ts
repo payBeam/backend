@@ -1,19 +1,10 @@
 import express from 'express';
-import { createUser, getUsers } from '@/controllers/userController';
-
+import { handleRedirect, handleGetAuthLink } from "@/controllers/authController"
 const router = express.Router();
 
+// *-------- GOOGLE AUTH --------------
+router.get('/google-auth-link', handleGetAuthLink)
 
-router.post('/google-signup', (req, res) => {
-    res.status(200).send("post route works")
-});
-
-router.get('/google-login', getUsers);
-
-router.get("/google-redirect", (req, res) => {
-    console.log(req)
-    res.status(200).send("google redirect works well")
-
-})
+router.get("/google-redirect", handleRedirect)
 
 export default router;

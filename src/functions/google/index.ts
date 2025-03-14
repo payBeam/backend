@@ -1,5 +1,5 @@
 import GoogleStrategy from "passport-google-oauth20"
-import { config} from "@/constants";
+import { config } from "@/constants";
 import passport from "passport";
 
 
@@ -10,7 +10,14 @@ passport.use(new GoogleStrategy.Strategy({
     callbackURL: config.GOOGLE_REDIRECT_URL
 },
     (accessToken, refreshToken, profile, done) => {
-        return done(null, profile);
+        try {
+
+            console.log("profile", profile);
+            return done(null, profile);
+        } catch (error) {
+            return done(error, false);
+        }
+
     }
 ));
 

@@ -11,7 +11,7 @@ import passport from 'passport';
 // import '@/utils/passport';
 import session from 'express-session';
 import { config } from "@/constants/index"
-// import config from "@/constants"
+import "@/functions/google"
 
 
 const app = express();
@@ -35,7 +35,7 @@ process.on('uncaughtException', (err: Error) => {
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan('combined'))
+app.use(morgan('tiny'))
 
 // Session middleware
 app.use(
