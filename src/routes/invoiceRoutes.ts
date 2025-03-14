@@ -1,14 +1,6 @@
 import express from 'express';
-import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoice } from "@/controllers/invoiceController"
+import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoice, handleSetPaymentMode } from "@/controllers/invoiceController"
 const router = express.Router();
-
-
-router.post('/create', handleCreateInvoice);
-router.get('/:id', handleGetInvoice);
-router.get('/', handleGetAllMerchantInvoice)
-
-export default router;
-
 
 //create invoice endpoint does the following thing
 /* 
@@ -23,5 +15,16 @@ export default router;
     - the payment address will be abother modal, it will be an array.
     - will receive the amount, the address, status, payment type
 */
+// ! invoice update will be updated from events receieved from the blockchain
+// ! hence no route will be created to update it
+
+router.post('/create', handleCreateInvoice);
+router.get('/:id', handleGetInvoice);
+router.get('/', handleGetAllMerchantInvoice)
+router.put('/set-payment-mode', handleSetPaymentMode)
+
+export default router;
+
+
 
  
