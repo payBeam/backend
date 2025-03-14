@@ -13,15 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
+  email     String?  @unique
+  password  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Transaction Transaction[]
+  authProviders AuthProvider[]
+  transaction   Transaction[]
+}
+
+model AuthProvider {
+  id         Int     @id @default(autoincrement())
+  provider   String // "google", "local", "facebook", etc.
+  providerId String? // ID from OAuth provider (Google ID, Facebook ID, etc.)
+  userId     Int     @unique
+  user       User    @relation(fields: [userId], references: [id])
 }
 
 model Transaction {

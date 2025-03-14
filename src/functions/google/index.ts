@@ -25,7 +25,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user: any, done) => {
     // TODO Retrieve user from DB here (example)
-    const user = { id }; // Replace with actual DB fetch
-    done(null, user);
+    // const user = { id }; // Replace with actual DB fetch
+    // done(null, user);
     return done(null, user);
 });

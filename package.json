@@ -5,7 +5,7 @@
   "scripts": {
 
     "prestart": "node  dist/constants/index.js",
-    "dev": " nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
+    "dev": "npm run db:init && nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
     "dummy": "npm run db:migrate && ",
     "db:migrate": "cd ./src && npx prisma migrate dev --name init",
