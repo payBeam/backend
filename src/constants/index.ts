@@ -10,7 +10,9 @@ const requiredEnvVars = [
     'GOOGLE_REDIRECT_URL',
     'PORT',
     'SESSION_SECRET',
-    'NODE_ENV'
+    'NODE_ENV',
+    'STELLAR_PUB_KEY',
+    'STELLAR_SECRET_KEY'
 ];
 
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
@@ -32,7 +34,18 @@ const key = process.env.SESSION_SECRET || "random-key-sceret";
 const SESSION_SECRET: CipherKey = Buffer.from(key, 'utf-8');
 const NODE_ENV = process.env.NODE_ENV
 
+// ! PAYMENT CREDENTIALS
+const STELLAR_PUB_KEY = process.env.STELLAR_PUB_KEY;
+const STELLAR_SECRET_KEY = process.env.STELLAR_SECRET_KEY;
 
 
 
-export const config = { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, PORT, SESSION_SECRET, GOOGLE_REDIRECT_URL, NODE_ENV }
+export const config = {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    PORT, SESSION_SECRET,
+    GOOGLE_REDIRECT_URL,
+    NODE_ENV,
+    STELLAR_PUB_KEY,
+    STELLAR_SECRET_KEY
+}
