@@ -1,6 +1,6 @@
 import express from 'express';
-import { handleGetAuthLink } from "@/controllers/authController"
-import { handleGetMemo } from "@/controllers/payeeController"
+import { handleGetAuthLink } from "@/controllers/auth.controller"
+import { handleGetMemo } from "@/controllers/payee.controller"
 const router = express.Router();
 
 // *-------- PAYEE ROUTES  --------------

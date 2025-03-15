@@ -1,9 +1,9 @@
 import express from 'express';
-import authRoutes from './authRoutes';
-import userRoutes from './userRoutes';
-import invoiceRoutes from "./invoiceRoutes"
-import merchantRoutes from "./merchantRoutes"
-import payeeRoutes from "./payeeRoutes"
+import authRoutes from './auth.routes';
+import userRoutes from './user.routes';
+import invoiceRoutes from "./invoice.routes"
+import merchantRoutes from "./merchant.routes"
+import payeeRoutes from "./payee.routes"
 import { ensureAuthenticated } from "@/middleware"
 
 const router = express.Router();

@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoice, handleSetPaymentMode } from "@/controllers/invoiceController"
+import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoice, handleSetPaymentMode } from "@/controllers/invoice.controller"
 const router = express.Router();
 
 //create invoice endpoint does the following thing

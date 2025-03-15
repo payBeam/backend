@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleRedirect, handleGetAuthLink } from "@/controllers/authController"
+import { handleRedirect, handleGetAuthLink } from "@/controllers/auth.controller"
 const router = express.Router();
 
 // *-------- MERCHANT ROUTES  --------------

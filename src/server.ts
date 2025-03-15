@@ -12,7 +12,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { config } from "@/constants/index"
 import "@/functions/google"
-import "@/functions/address-generator/stellar"
+// import "@/functions/address-generator/stellar"
 
 
 const app = express();

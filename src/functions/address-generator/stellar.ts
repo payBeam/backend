@@ -13,11 +13,9 @@ const receivingKeypair = Keypair.fromSecret(receivingSecret as string);
 
 // ! MAINNET
 // const USDC_ISSUER = "GA5ZSEVDOTGNFVU3GJUP4NXZG36UAKMWP3QNAV5X3X4M6LBPLN5ALXJU"; // Circle's USDC issuer
-// const USDT_ISSUER = "GB55A4BME5LBU5F7TZ3WR24BWJVDUHXQLJ5QIMWT6W3ZE2JIHH3RNSDW"; // USDT issuer on Stellar
 
 // ! TESTNET
 const USDC_ISSUER = "GATALTGTWIOT6BUDBCZM3Q4OQ4BO2COLOAZ7IYSKPLC2PMSOPPGF5V56"
-// const USDT_ISSUER = ""
 
 async function setTrustlines() {
     const account = await server.loadAccount(receivingKeypair.publicKey());
