@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 
 
+
 export const handleGetAuthLink = async (req: Request, res: Response, next: NextFunction) => {
     console.log("🔄 Redirecting to Google OAuth...");
     passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next);

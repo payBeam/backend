@@ -1,7 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
-import AppError from "@/utils/AppError";
+import {AppError} from "@/utils/AppError";
 
 const swaggerOptions = {
     definition: {

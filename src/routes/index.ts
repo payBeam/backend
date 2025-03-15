@@ -4,7 +4,7 @@ import userRoutes from './user.routes';
 import invoiceRoutes from "./invoice.routes"
 import merchantRoutes from "./merchant.routes"
 import payeeRoutes from "./payee.routes"
-import { ensureAuthenticated } from "@/middleware"
+import { ensureAuthenticated } from "@/middlewares"
 
 const router = express.Router();
 

@@ -3,15 +3,14 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import routes from '@/routes/index';
-// import globalErrorHandler from '@/utils/globalErrorHandler';
-import AppError from '@/utils/AppError';
+import { errorHandler } from "@/middlewares/errorHandler";
 import { setupSwagger } from "@/docs/swagger"
 import morgan from "morgan"
 import passport from 'passport';
-// import '@/utils/passport';
 import session from 'express-session';
 import { config } from "@/constants/index"
 import "@/functions/google"
+import { AppError } from "@/utils/AppError";
 // import "@/functions/address-generator/stellar"
 
 
@@ -62,9 +61,10 @@ setupSwagger(app);
 
 // 404 Handler
 app.all('*', (req, res, next) => {
-    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+    next( new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+app.use(errorHandler)
 
 
 app.listen(config.PORT, () => {
