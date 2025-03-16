@@ -1,34 +1,26 @@
-import { AppError } from "@/utils/AppError";
-import { PrismaClient } from "@prisma/client"
+// import { AppError } from "@/utils/AppError";
+import { PrismaClient, TokenType } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const createMerchant = async (name: string, description: string, id: string) => {
-    // find if merchant already exists
-    const merchantExist = await getMerchantById(id);
-    if (merchantExist) {
-        throw new AppError("Merchant already exist", 401);
-
-    }
-    // return error if already exists
-    // create if doesnt already exists
-    const merchant = prisma.merchant.create({
+export const createInvoicePayment = async (address: string, tokenType: TokenType, invoiceId: string) => {
+    const merchantExist = await prisma.invoicePayment.create({
         data: {
-            name,
-            description,
-            id
+            address,
+            token: tokenType,
+            invoiceId
         }
     })
 
-    return merchant
+    return merchantExist
 
 }
 
-export const getMerchantById = async (id: string) => {
-    const merchant = await prisma.merchant.findFirst({
+export const getAnInvoicePayment = async (id: string) => {
+    const invoicePayment = await prisma.invoicePayment.findUnique({
         where: {
-            id
+            memo: id
         }
     });
-    return merchant
+    return invoicePayment
 }

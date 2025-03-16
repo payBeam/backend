@@ -23,9 +23,9 @@ router.post('/create/:invoiceid/usdc', handleGenerateMemo)
 // router.post('/create/:invoiceid/usdt', handleGetMemo)
 
 // * tokens on zeta
-router.post('/create/:invoiceid/bnb', handleGetAuthLink)
-router.post('/create/:invoiceid/zeta', handleGetAuthLink)
-router.post('/create/:invoiceid/eth', handleGetAuthLink)
+// router.post('/create/:invoiceid/bnb', handleGetAuthLink)
+// router.post('/create/:invoiceid/zeta', handleGetAuthLink)
+// router.post('/create/:invoiceid/eth', handleGetAuthLink)
 
 
 

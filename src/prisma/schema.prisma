@@ -60,7 +60,7 @@ model Invoice {
 }
 
 model InvoicePayment {
-  id        String    @id @default(ulid())
+  memo      String    @id @default(ulid())
   address   String
   token     TokenType
   status    Status    @default(Pending)

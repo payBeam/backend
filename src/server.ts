@@ -12,13 +12,28 @@ import { config } from "@/constants/index"
 import "@/functions/google"
 import { AppError } from "@/utils/AppError";
 import cookieParser from "cookie-parser";
+import { listenForPayments } from '@/functions/event-listeners';
 // import "@/functions/address-generator/stellar"
 
 
 const app = express();
 const prisma = new PrismaClient();
 
+// Start the payment listener
+listenForPayments();
 
+
+
+// Handle graceful shutdown
+process.on("SIGINT", () => {
+    console.log("🛑 Shutting down Stellar payment listener...");
+    process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+    console.log("🛑 Shutting down Stellar payment listener...");
+    process.exit(0);
+});
 
 // Unhandled Rejections (e.g., database connection failures)
 process.on('unhandledRejection', (err: Error) => {
@@ -40,19 +55,6 @@ app.use(morgan('tiny'))
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 
-// Session middleware
-// app.use(
-//     session({
-//         secret: config.SESSION_SECRET,
-//         resave: false,
-//         saveUninitialized: true,
-//         cookie: {
-//             secure: config.NODE_ENV === 'production', // Only secure in production
-//             httpOnly: true, // Prevent XSS attacks
-//             sameSite: 'lax' // Protect against CSRF
-//         }
-//     })
-// );
 
 // Initialize Passport
 app.use(passport.initialize());
