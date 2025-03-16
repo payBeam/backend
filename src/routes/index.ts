@@ -11,8 +11,6 @@ const router = express.Router();
 
 router.use("/auth", authRoutes);
 router.use("/user", ensureAuthenticated, userRoutes);
-// TODO: set a middleware so
-// TODO : only merchant can call these endpoints 
 router.use('/invoice', ensureAuthenticated, ensureMerchant, invoiceRoutes);
 router.use("/merchant", ensureAuthenticated, merchantRoutes)
 router.use("/invoice-settlement", invoiceSettlement)

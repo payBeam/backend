@@ -30,11 +30,12 @@ export const getInvoiceById = async(id:string) => {
     return invoice
 }
 
-export const getMerchantById = async (id: string) => {
-    const merchant = await prisma.merchant.findFirst({
+export const getAllMerchantInvoices = async(id:string) => {
+    const invoices = await prisma.invoice.findMany({
         where: {
-            id
+            merchantId:id
         }
-    });
-    return merchant
+    })
+    
+    return invoices
 }

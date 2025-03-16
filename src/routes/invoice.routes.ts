@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoice, handleSetPaymentMode } from "@/controllers/invoice.controller"
+import { handleCreateInvoice, handleGetInvoice, handleGetAllMerchantInvoices, handleSetPaymentMode } from "@/controllers/invoice.controller"
 const router = express.Router();
 
 //create invoice endpoint does the following thing
@@ -20,7 +20,7 @@ const router = express.Router();
 
 router.post('/create', handleCreateInvoice);
 router.get('/:id', handleGetInvoice);
-router.get('/', handleGetAllMerchantInvoice)
+router.get('/', handleGetAllMerchantInvoices)
 router.put('/set-payment-mode', handleSetPaymentMode)
 
 export default router;

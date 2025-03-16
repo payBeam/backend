@@ -37,3 +37,4 @@ export const handleGetAMarchant = asyncHandler(async (req: Request, res: Respons
     }
 
 });
+
