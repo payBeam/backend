@@ -13,6 +13,7 @@ import "@/functions/google"
 import { AppError } from "@/utils/AppError";
 import cookieParser from "cookie-parser";
 import { listenForPayments } from '@/functions/event-listeners';
+import { testPayment } from './functions/send-xlm';
 // import "@/functions/address-generator/stellar"
 
 
@@ -21,6 +22,8 @@ const prisma = new PrismaClient();
 
 // Start the payment listener
 listenForPayments();
+
+
 
 
 
@@ -70,6 +73,7 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(errorHandler)
+testPayment("01JPGF96W1R00FD3RZRX51VYC0");
 
 
 app.listen(config.PORT, () => {

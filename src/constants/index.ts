@@ -14,7 +14,9 @@ const requiredEnvVars = [
     'STELLAR_PUB_KEY',
     'STELLAR_SECRET_KEY',
     'JWT_SECRET',
-    'JWT_REFRESH_SECRET'
+    'JWT_REFRESH_SECRET',
+    'STELLAR_SENDER_SECRET_KEY',
+    'STELLAR_SENDER_PUB_KEY'
 ];
 
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
@@ -41,7 +43,8 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET
 // ! PAYMENT CREDENTIALS
 const STELLAR_PUB_KEY = process.env.STELLAR_PUB_KEY;
 const STELLAR_SECRET_KEY = process.env.STELLAR_SECRET_KEY;
-
+const STELLAR_SENDER_SECRET_KEY = process.env.STELLAR_SENDER_SECRET_KEY;
+const STELLAR_SENDER_PUB_KEY = process.env.STELLAR_SENDER_PUB_KEY;
 
 
 export const config = {
@@ -53,5 +56,7 @@ export const config = {
     STELLAR_PUB_KEY,
     STELLAR_SECRET_KEY,
     JWT_SECRET,
-    JWT_REFRESH_SECRET
+    JWT_REFRESH_SECRET,
+    STELLAR_SENDER_PUB_KEY,
+    STELLAR_SENDER_SECRET_KEY
 }
