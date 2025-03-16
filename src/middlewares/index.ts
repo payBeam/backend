@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { config } from "@/constants";
 import { getUserById } from "@/services/user.service";
 import { User } from "@prisma/client";
+import { getMerchantById } from "@/services/merchant.service";
 
 
 export const ensureAuthenticated = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +21,19 @@ export const ensureAuthenticated = asyncHandler(async (req: Request, res: Respon
         req.user = user;
         next();
     } else {
-        throw new AppError("Euser does not exist", 401);
- 
+        throw new AppError("User does not exist", 401);
+
+    }
+})
+
+export const ensureMerchant = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user as User;
+    const isMerchant = await getMerchantById(user?.id);
+    if (isMerchant) {
+        next()
+
+    } else {
+        throw new AppError("Protected Route", 403);
+
     }
 })

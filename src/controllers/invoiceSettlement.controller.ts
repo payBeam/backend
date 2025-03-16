@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
+import { asyncHandler } from "@/middlewares/asyncHandler";
+import { ApiResponse } from '@/utils/ApiResponse';
 
 const prisma = new PrismaClient()
 
-export const handleGetMemo = async (req: Request, res: Response, next: NextFunction) => {
-    try {
+export const handleGenerateMemo = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
         const { invoiceid } = req.params
         console.log(invoiceid)
         // TODO find of the invoice exists
@@ -17,13 +18,8 @@ export const handleGetMemo = async (req: Request, res: Response, next: NextFunct
         //     }
         // })
 
-    } catch (error: any) {
-        res.status(401).json({
-            status: "failed",
-            data: error.message
-        })
-    }
-}
+ 
+})
 
 
 // export const handleGetMemo = async (req: Request, res: Response, next: NextFunction) => {

@@ -53,13 +53,13 @@ model Invoice {
   paymentMode PaymentMode
   status      Status      @default(Pending)
 
-  updatedAt  DateTime  @updatedAt
-  payee      Payee[]
-  merchant   Merchant? @relation(fields: [merchantId], references: [id])
-  merchantId String?
+  updatedAt      DateTime         @updatedAt
+  invoicePayment InvoicePayment[]
+  merchant       Merchant         @relation(fields: [merchantId], references: [id])
+  merchantId     String
 }
 
-model Payee {
+model InvoicePayment {
   id        String    @id @default(ulid())
   address   String
   token     TokenType
