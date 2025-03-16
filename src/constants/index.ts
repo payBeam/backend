@@ -12,7 +12,9 @@ const requiredEnvVars = [
     'SESSION_SECRET',
     'NODE_ENV',
     'STELLAR_PUB_KEY',
-    'STELLAR_SECRET_KEY'
+    'STELLAR_SECRET_KEY',
+    'JWT_SECRET',
+    'JWT_REFRESH_SECRET'
 ];
 
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
@@ -33,6 +35,8 @@ const PORT = process.env.PORT || 5000;
 const key = process.env.SESSION_SECRET || "random-key-sceret";
 const SESSION_SECRET: CipherKey = Buffer.from(key, 'utf-8');
 const NODE_ENV = process.env.NODE_ENV
+const JWT_SECRET = process.env.JWT_SECRET
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET
 
 // ! PAYMENT CREDENTIALS
 const STELLAR_PUB_KEY = process.env.STELLAR_PUB_KEY;
@@ -47,5 +51,7 @@ export const config = {
     GOOGLE_REDIRECT_URL,
     NODE_ENV,
     STELLAR_PUB_KEY,
-    STELLAR_SECRET_KEY
+    STELLAR_SECRET_KEY,
+    JWT_SECRET,
+    JWT_REFRESH_SECRET
 }

@@ -1,11 +1,11 @@
 import express from 'express';
-import { handleRedirect, handleGetAuthLink } from "@/controllers/auth.controller"
+import {  handleCreateMerchant } from "@/controllers/merchant.controller"
 const router = express.Router();
 
 // *-------- MERCHANT ROUTES  --------------
-router.post('/create', handleGetAuthLink)
+router.post('/create', handleCreateMerchant)
 router.put('/update')
-router.get("/:id", handleRedirect)
+// router.get("/:id", handleRedirect)
 router.get("/")
 
 

@@ -11,6 +11,7 @@ import session from 'express-session';
 import { config } from "@/constants/index"
 import "@/functions/google"
 import { AppError } from "@/utils/AppError";
+import cookieParser from "cookie-parser";
 // import "@/functions/address-generator/stellar"
 
 
@@ -36,24 +37,26 @@ process.on('uncaughtException', (err: Error) => {
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'))
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); 
 
 // Session middleware
-app.use(
-    session({
-        secret: config.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            secure: config.NODE_ENV === 'production', // Only secure in production
-            httpOnly: true, // Prevent XSS attacks
-            sameSite: 'lax' // Protect against CSRF
-        }
-    })
-);
+// app.use(
+//     session({
+//         secret: config.SESSION_SECRET,
+//         resave: false,
+//         saveUninitialized: true,
+//         cookie: {
+//             secure: config.NODE_ENV === 'production', // Only secure in production
+//             httpOnly: true, // Prevent XSS attacks
+//             sameSite: 'lax' // Protect against CSRF
+//         }
+//     })
+// );
 
 // Initialize Passport
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 
 app.use('/api', routes);

@@ -45,10 +45,14 @@ passport.use(new GoogleStrategy.Strategy({
                         }
                     }
                 });
+
                 return done(null, newUser);
+                // Generate JWT token
+
             }
             // if so, return user
             console.log("profile", user);
+
             return done(null, user);
         } catch (error) {
             return done(error, false);
@@ -58,17 +62,17 @@ passport.use(new GoogleStrategy.Strategy({
 ));
 
 
-// Serialize user
-passport.serializeUser((user: any, done) => {
-    done(null, { id: user.id } as SerializedUser);
-});
+// // Serialize user
+// passport.serializeUser((user: any, done) => {
+//     done(null, { id: user.id } as SerializedUser);
+// });
 
 
-passport.deserializeUser(async (serializedUser: SerializedUser, done) => {
-    try {
-        const user = await prisma.user.findUnique({ where: { id: serializedUser.id } });
-        done(null, user);
-    } catch (error) {
-        done(error, null);
-    }
-});
+// passport.deserializeUser(async (serializedUser: SerializedUser, done) => {
+//     try {
+//         const user = await prisma.user.findUnique({ where: { id: serializedUser.id } });
+//         done(null, user);
+//     } catch (error) {
+//         done(error, null);
+//     }
+// });
