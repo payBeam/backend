@@ -7,18 +7,8 @@ import { getUserById } from "@/services/user.service";
 import { User } from "@prisma/client";
 
 
-// export const ensureAuthenticated = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     console.log("Authenticated User:", req.user); // Debugging
-
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     throw new AppError("unauthorized", 401);
-// });
-
-
 export const ensureAuthenticated = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.cookies)
+    // console.log(req.cookies)
     const token = req.cookies.token;
     if (!token) {
         throw new AppError("Not authenticated", 401);

@@ -14,6 +14,6 @@ router.use("/user", ensureAuthenticated, userRoutes);
 // TODO: set a middleware so
 // TODO : only merchant can call these endpoints 
 router.use('/invoice', ensureAuthenticated, invoiceRoutes);
-router.use("/merchant", merchantRoutes)
+router.use("/merchant", ensureAuthenticated, merchantRoutes)
 router.use("/payee", payeeRoutes)
 export default router
