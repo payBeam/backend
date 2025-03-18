@@ -73,7 +73,7 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(errorHandler)
-testPayment("01JPGF96W1R00FD3RZRX51VYC0");
+// testPayment("01JPGF96W1R00FD3RZRX51VYC0");
 
 
 app.listen(config.PORT, () => {
