@@ -4,7 +4,49 @@ import { AppError } from '@/utils/AppError';
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
 import { config } from '@/constants';
+import { createUser, getUserByProviderId } from '@/services/user.service';
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const handleGoogleAuth = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const { payload } = req.body;
+
+
+    let user;
+    user = await getUserByProviderId(payload?.sub!);
+    // if not, create user
+    if (!user) {
+        user = await createUser(payload?.email!, "google", payload?.sub!);
+    }
+
+    // Generate JWT Tokens
+    const accessToken = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET!,
+        { expiresIn: "15m" }
+    );
+
+    const refreshToken = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_REFRESH_SECRET!,
+        { expiresIn: "7d" }
+    );
+
+    // Set refresh token as an HTTP-only cookie
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+
+    // Send access token and user data
+    return res.status(200).json(new ApiResponse("success", { user, accessToken }));
+
+})
 
 
 export const handleGetAuthLink = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

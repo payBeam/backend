@@ -4,10 +4,12 @@
   "main": "./src/server.ts",
   "scripts": {
     "prestart": "node  dist/constants/index.js",
-    "dev": "nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
+    "dev": "npm run db:deploy && npm run db:init && nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
     "dummy": "npm run db:migrate && ",
-    "db:migrate": "cd ./src && npx prisma migrate dev --name init",
+    "db:deploy": "cd ./src && npx prisma migrate deploy",
+    "db:reset": "cd ./src && npx prisma migrate reset --force",
+    "db:migrate": "cd ./src && npx prisma migrate dev --name added_more_fields_to_InvoicePayment",
     "db:init": "cd ./src && npx prisma generate",
     "start": "node dist/server.js",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build"
@@ -31,6 +33,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "google-auth-library": "^9.15.1",
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",

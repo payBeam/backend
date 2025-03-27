@@ -31,5 +31,5 @@ services:
       - db
     command: npm run dev # Use nodemon for hot-reloading
 
-volumes:
+volumes:  
   postgres_data_dev:

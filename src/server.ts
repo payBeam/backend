@@ -21,7 +21,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 // Start the payment listener
-listenForPayments();
+// listenForPayments();
 
 
 
@@ -52,9 +52,21 @@ process.on('uncaughtException', (err: Error) => {
 
 
 
-app.use(cors());
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://paybeam.vercel.app/'
+];
+
+
+const corsOptions = {
+    origin: allowedOrigins, 
+    credentials: true, // Allow credentials (cookies)
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(morgan('tiny'))
+app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 
