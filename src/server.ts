@@ -7,7 +7,7 @@ import { errorHandler } from "@/middlewares/errorHandler";
 import { setupSwagger } from "@/docs/swagger"
 import morgan from "morgan"
 import passport from 'passport';
-import session from 'express-session';
+// import session from 'express-session';
 import { config } from "@/constants/index"
 import "@/functions/google"
 import { AppError } from "@/utils/AppError";

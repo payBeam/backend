@@ -13,6 +13,8 @@ export const getUserById = async (id: string) => {
     return user
 }
 
+// ! this returns the first data in the database even ig providerId is null
+// TODO : probably use a findUnique instead of findFirst
 export const getUserByProviderId = async (providerId: string) => {
     const user = await prisma.user.findFirst({
         where: {

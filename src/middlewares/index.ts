@@ -9,8 +9,9 @@ import { getMerchantById } from "@/services/merchant.service";
 
 
 export const ensureAuthenticated = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    // console.log(req.cookies)
-    const token = req.cookies.token;
+    const token = req.headers.authorization?.split(" ")[1];
+    console.log("token",token)
+
     if (!token) {
         throw new AppError("Not authenticated", 401);
     }

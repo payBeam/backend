@@ -3,7 +3,7 @@ import { PaymentMode, PrismaClient, TokenType } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const createInvoice = async (amount: number, token: TokenType, title: string, description: string, paymentMode:PaymentMode, merchantId: string) => {
+export const createInvoice = async (amount: number, token: TokenType, title: string, description: string, merchantId: string) => {
     // find if merchant already exists
     const invoice = await prisma.invoice.create({
         data: {
@@ -11,7 +11,6 @@ export const createInvoice = async (amount: number, token: TokenType, title: str
             token,
             title,
             description,
-            paymentMode,
             merchantId
         }
     })
@@ -20,7 +19,7 @@ export const createInvoice = async (amount: number, token: TokenType, title: str
 
 }
 
-export const getInvoiceById = async(id:string) => {
+export const getInvoiceById = async (id: string) => {
     const invoice = await prisma.invoice.findUnique({
         where: {
             id
@@ -30,12 +29,12 @@ export const getInvoiceById = async(id:string) => {
     return invoice
 }
 
-export const getAllMerchantInvoices = async(id:string) => {
+export const getAllMerchantInvoices = async (id: string) => {
     const invoices = await prisma.invoice.findMany({
         where: {
-            merchantId:id
+            merchantId: id
         }
     })
-    
+
     return invoices
 }

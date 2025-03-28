@@ -14,8 +14,10 @@ export const handleGoogleAuth = asyncHandler(async (req: Request, res: Response,
     const { payload } = req.body;
 
 
+    // console.log("payload",payload)
     let user;
     user = await getUserByProviderId(payload?.sub!);
+    // console.log("user",user)
     // if not, create user
     if (!user) {
         user = await createUser(payload?.email!, "google", payload?.sub!);

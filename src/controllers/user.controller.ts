@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { asyncHandler } from "@/middlewares/asyncHandler";
 import { ApiResponse } from '@/utils/ApiResponse';
 
@@ -12,6 +12,18 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     });
     res.status(200).json(new ApiResponse("success", user));
 });
+
+
+
+export const getUser = asyncHandler(async (req: Request, res: Response) => {
+
+    const user = req.user as User
+    const users = await prisma.user.findUnique({ where: { id: user.id }, include: { merchant: true } });
+
+    
+    res.status(200).json(new ApiResponse("success", users));
+});
+
 
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
     const users = await prisma.user.findMany();

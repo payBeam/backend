@@ -8,12 +8,12 @@ import { NextFunction, Response, Request } from "express"
 
 
 export const handleCreateInvoice = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { title, description, tokenType, amount, paymentMode } = req.body;
-    if (!title || !description || !tokenType || !amount || !paymentMode) {
+    const { title, description, tokenType, amount } = req.body;
+    if (!title || !description || !tokenType || !amount ) {
         throw new AppError("missing parameters", 400)
     }
     const merchant = req.user as User
-    const invoice = await createInvoice(amount, tokenType, title, description, paymentMode, merchant.id);
+    const invoice = await createInvoice(amount, tokenType, title, description,  merchant.id);
     if (!invoice) throw new AppError("Error Creating Invoice", 404);
 
     res.status(201).json(new ApiResponse("success", invoice))
