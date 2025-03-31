@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use("/auth", authRoutes);
 router.use("/user", ensureAuthenticated, userRoutes);
+router.use("/invoice-settlement", invoiceSettlement)
 router.use('/invoice', ensureAuthenticated, ensureMerchant, invoiceRoutes);
 router.use("/merchant", ensureAuthenticated, merchantRoutes)
-router.use("/invoice-settlement", invoiceSettlement)
 export default router

@@ -1,6 +1,7 @@
 import express from 'express';
 import { handleGetAuthLink } from "@/controllers/auth.controller"
 import { handleGenerateMemo } from "@/controllers/invoiceSettlement.controller"
+import { handleGetInvoice } from '@/controllers/invoice.controller';
 const router = express.Router();
 
 // *-------- PAYEE ROUTES  --------------
@@ -20,6 +21,7 @@ TODO - tests
 
 // * tokens on Stellar
 router.post('/create/:invoiceid/usdc', handleGenerateMemo)
+router.get("/:id", handleGetInvoice)
 // router.post('/create/:invoiceid/usdt', handleGetMemo)
 
 // * tokens on zeta
