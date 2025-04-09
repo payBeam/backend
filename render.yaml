@@ -6,7 +6,7 @@ services:
     dockerContext: .
     dockerfilePath: Dockerfile
     buildCommand: npm install
-    startCommand: npm run start
+    startCommand: npm run start:prod
     ports:
       - 5000
     dependsOn:

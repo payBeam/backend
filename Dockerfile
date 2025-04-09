@@ -16,9 +16,6 @@ COPY . .
 # Generate Prisma Client
 RUN npm run db:init
 
-# Deploy Migrations (only if using migrations in prod)
-RUN npm run db:deploy:prod
-
 # Build the TypeScript project
 RUN npm run build
 
