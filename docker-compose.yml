@@ -1,25 +1,13 @@
 services:
-  db:
-    image: postgres:13
-    container_name: paybeam_db
-    environment:
-      POSTGRES_USER: test-user
-      POSTGRES_PASSWORD: test-password
-      POSTGRES_DB: paybeam
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   app:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: paybeam_app
     ports:
-      - "5000:5000"
-    environment:
-      DATABASE_URL: "postgresql://test-user:test-password@db:5432/paybeam?schema=public"
+      - "5000:3000"
+    env_file:
+      - .env
     depends_on:
       - db
-
-volumes:
-  postgres_data:
+    command: npm run start

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: paybeam-app
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    envVars:
+      - fromDotEnv: true
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    ports:
+      - 5000
+    dependsOn:
+      - name: paybeam-db

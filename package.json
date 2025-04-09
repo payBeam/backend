@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "./src/server.ts",
   "scripts": {
+    "clean": "rimraf dist",
     "prestart": "node  dist/constants/index.js",
     "dev": "npm run db:deploy && npm run db:init && nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
-    "build": "tsc",
-    "dummy": "npm run db:migrate && ",
+    "build": "npm run clean && tsc",
+    "dummy": "npm run db:migrate",
     "db:deploy": "cd ./src && npx prisma migrate deploy",
     "db:reset": "cd ./src && npx prisma migrate reset --force",
     "db:migrate": "cd ./src && npx prisma migrate dev --name added_more_fields_to_InvoicePayment",
@@ -59,6 +60,7 @@
     "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.9",
     "prisma": "^6.4.1",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }
