@@ -54,7 +54,8 @@ process.on('uncaughtException', (err: Error) => {
 
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://paybeam.vercel.app/'
+    'https://paybeam.vercel.app/',
+    "https://paybeam.netlify.app"
 ];
 
 
