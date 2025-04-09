@@ -38,3 +38,21 @@ export const getAllMerchantInvoices = async (id: string) => {
 
     return invoices
 }
+
+export const getFilteredInvoiceSum = async (
+    merchantId: string
+) => {
+    console.log("got here")
+    const result = await prisma.invoice.aggregate({
+        where: {
+            merchantId: merchantId,
+
+        },
+        _sum: {
+            amount: true,
+        },
+    });
+    console.log("balance",result)
+
+    return result._sum.amount || 0;
+}

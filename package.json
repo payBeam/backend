@@ -11,11 +11,12 @@
     "db:reset": "cd ./src && npx prisma migrate reset --force",
     "db:migrate": "cd ./src && npx prisma migrate dev --name added_more_fields_to_InvoicePayment",
     "db:init": "cd ./src && npx prisma generate",
-    "start": "node dist/server.js",
+    "start": "npm run db:deploy:prod && npm run db:init && node dist/server.js",
+    "db:deploy:prod": "cd ./src && npx prisma migrate deploy",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build"
   },
   "_moduleAliases": {
-    "@": "./src"
+    "@": "./dist"
   },
   "keywords": [
     "crypto",
