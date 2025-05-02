@@ -18,7 +18,7 @@
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build"
   },
   "_moduleAliases": {
-    "@": "./src"
+    "@": "./dist"
   },
   "keywords": [
     "crypto",
