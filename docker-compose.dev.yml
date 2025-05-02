@@ -20,7 +20,7 @@ services:
       - .:/app # Bind mount the entire project directory
       - /app/node_modules # Avoid overwriting node_modules in the container
     ports:
-      - "5000:3000"
+      - "5000:5000"
     env_file:
       - .env
     environment:

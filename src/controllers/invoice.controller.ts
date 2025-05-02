@@ -4,19 +4,34 @@ import { ApiResponse } from "@/utils/ApiResponse"
 import { AppError } from "@/utils/AppError"
 import { User } from "@prisma/client"
 import { NextFunction, Response, Request } from "express"
-
+import { prepCreateInvoice } from "@/functions/xlm/prepare-transaction";
+import {decodeTime} from "ulid";
 
 
 export const handleCreateInvoice = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { title, description, tokenType, amount } = req.body;
-    if (!title || !description || !tokenType || !amount) {
+    const { title, description, tokenType, amount, publicKey } = req.body;
+    console.log(req.body)
+    if ( !tokenType || !amount || !publicKey) {
         throw new AppError("missing parameters", 400)
     }
     const merchant = req.user as User
     const invoice = await createInvoice(amount, tokenType, title, description, merchant.id);
-    if (!invoice) throw new AppError("Error Creating Invoice", 404);
+    const timestampMs = decodeTime(invoice.id);
+    const timeInSec = Math.floor(timestampMs / 1000);
 
-    res.status(201).json(new ApiResponse("success", invoice))
+    const oneDayInSeconds = 86400;
+    const updatedTimestampSec = timeInSec + oneDayInSeconds;
+
+
+    // create the invoice on XLM network
+    // TODO : set actual due date, by incrasing createdAt by a day
+    const xdr = await prepCreateInvoice(publicKey, invoice.id, amount, updatedTimestampSec).catch((err) => {
+        console.log("Error creating invoice on XLM network", err.message)});
+
+    // TODO  if soroban fails to save the invoice, delete the invoice from the database
+    if (!invoice || !xdr) throw new AppError("Error Creating Invoice", 404);
+
+    res.status(201).json(new ApiResponse("success", {xdr, invoice}))
 })
 
 export const handleGetInvoice = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

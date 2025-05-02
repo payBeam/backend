@@ -18,7 +18,7 @@
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build"
   },
   "_moduleAliases": {
-    "@": "./dist"
+    "@": "./src"
   },
   "keywords": [
     "crypto",
@@ -44,7 +44,8 @@
     "passport-google-oauth20": "^2.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "ulid": "^3.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
