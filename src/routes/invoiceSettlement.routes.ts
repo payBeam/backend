@@ -1,6 +1,6 @@
 import express from 'express';
 import { handleGetAuthLink } from "@/controllers/auth.controller"
-import { handleGenerateMemo } from "@/controllers/invoiceSettlement.controller"
+import { handleCreateUSDCTrustline, handleGenerateMemo, handlePayInvoice } from "@/controllers/invoiceSettlement.controller"
 import { handleGetInvoice } from '@/controllers/invoice.controller';
 const router = express.Router();
 
@@ -22,6 +22,8 @@ TODO - tests
 // * tokens on Stellar
 router.post('/create/:invoiceid/usdc', handleGenerateMemo)
 router.get("/:id", handleGetInvoice)
+router.post('/pay', handlePayInvoice)
+router.post('/create-trustline', handleCreateUSDCTrustline)
 // router.post('/create/:invoiceid/usdt', handleGetMemo)
 
 // * tokens on zeta

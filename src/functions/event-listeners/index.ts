@@ -1,12 +1,12 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
 import { config } from "@/constants/index";
 
-const testServer = "https://horizon-testnet.stellar.org";
+const testServer = "https://soroban-testnet.stellar.org";
 const liveServer = "https://horizon.stellar.org";
 const server = new StellarSdk.Horizon.Server(testServer); // Use testnet for testing
 
 // PayBeam’s shared deposit address
-const PAYBEAM_WALLET_ADDRESS = config.STELLAR_PUB_KEY;
+const PAYBEAM_WALLET_ADDRESS = config.PAYBEAM_CONTRACT;
 
 // Function to listen for payments
 export async function listenForPayments() {

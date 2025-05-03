@@ -5,7 +5,7 @@ const server = new StellarSdk.Horizon.Server("https://horizon-testnet.stellar.or
 
 // Replace these with your testnet account's secret key and the destination address
 const SOURCE_SECRET_KEY = config.STELLAR_SENDER_SECRET_KEY; // Secret key of the sender
-const DESTINATION_ADDRESS = config.STELLAR_PUB_KEY; // Your PayBeam wallet address
+const DESTINATION_ADDRESS = config.PAYBEAM_CONTRACT; // Your PayBeam wallet address
 
 // Load the source account
 const sourceKeypair = StellarSdk.Keypair.fromSecret(SOURCE_SECRET_KEY!);
