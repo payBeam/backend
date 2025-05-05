@@ -42,8 +42,8 @@ export async function prepareTx(publicKey: string, funcName: string, values: any
     tx = await provider.prepareTransaction(tx);
     console.log("tx", tx.toXDR())
 
-    // const decoded = xdr.TransactionResult.fromXDR("AAAAAABA89H////9AAAAAA==", 'base64');
-    // console.log(decoded.result().switch().name);
+    const decoded = xdr.TransactionResult.fromXDR("AAAAAAAChnL////7AAAAAA==", 'base64');
+    console.log(decoded.result().switch().name);
 
     return ({ xdr: tx.toXDR() });
 
@@ -121,29 +121,76 @@ export async function prepPayInvoice(publicKey: string, invoiceId: string, amoun
         fee: BASE_FEE,
         networkPassphrase: Networks.TESTNET,
     })
-    .addOperation(
-        appContract.call(
-            "pay_invoice",
-            ...[
-                // 1. invoice_id: Symbol (ensure this matches contract expectations)
-                xdr.ScVal.scvSymbol(invoiceId),
-                // 2. payer: Address
-                new Address(publicKey).toScVal(),
-                // 3. token: Address (USDC contract)
-                new Address("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA").toScVal(),
-                // 4. amount: i128
-                nativeToScVal(amountStroops.toString(), { type: 'i128' })
-                
-                // stringToSymbol(invoiceId),
-                // accountToScVal(publicKey),
-                // accountToScVal("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"),
-                // // numberToi128(amount)
-                // nativeToScVal(amountStroops.toString(), { type: 'i128' })
-            ]
+        .addOperation(
+            appContract.call(
+                "simple_pay_invoice",
+                ...[
+                    // 1. invoice_id: Symbol (ensure this matches contract expectations)
+                    xdr.ScVal.scvSymbol(invoiceId),
+                    // 2. payer: Address
+                    new Address(publicKey).toScVal(),
+                    // 3. token: Address (USDC contract)
+                    new Address("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA").toScVal(),
+                    // 4. amount: i128
+                    nativeToScVal(amountStroops.toString(), { type: 'i128' })
+
+                    // stringToSymbol(invoiceId),
+                    // accountToScVal(publicKey),
+                    // accountToScVal("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"),
+                    // numberToi128(amount)
+                    // nativeToScVal(amountStroops.toString(), { type: 'i128' })
+                ]
+            )
         )
-    )
-    .setTimeout(300)
-    .build();
+        .setTimeout(300)
+        .build();
+
+    const preparedTx = await provider.prepareTransaction(tx);
+    return { xdr: preparedTx.toXDR() };
+}
+
+export async function prepPayInvoice_(publicKey: string, invoiceId: string, amount: number) {
+    const account = await provider.getAccount(publicKey);
+    const usdcTokenContract = new Contract("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA");
+    const appContract = new Contract(PAYBEAM_CONTRACT!);
+
+    // Convert amount to stroops (1 USDC = 10,000,000 stroops)
+    const amountStroops = BigInt(Math.floor(9 * 10_000_000));
+    // Get current ledger sequence
+    const latestLedger = await provider.getLatestLedger();
+
+    // Set expiration to 100,000 ledgers from now (~30 days)
+    const expirationLedger = latestLedger.sequence + 100000;
+
+    // 2. Build transaction
+    const tx = new TransactionBuilder(account, {
+        fee: BASE_FEE,
+        networkPassphrase: Networks.TESTNET,
+    })
+        .addOperation(
+            appContract.call(
+                "transfer_funds",
+                ...[
+                    // 1. invoice_id: Symbol (ensure this matches contract expectations)
+                    // xdr.ScVal.scvSymbol(invoiceId),
+                    // 2. payer: Address
+                    // new Address(publicKey).toScVal(),
+                    // 3. token: Address (USDC contract)
+                    new Address("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA").toScVal(),
+                    new Address("GCCGVBUG33D6P5MF2NJIVOH4G35R52UKMQUJZLGFOBEVYAFUWUUPVQJF").toScVal(),
+                    // 4. amount: i128
+                    nativeToScVal(amountStroops.toString(), { type: 'i128' })
+
+                    // stringToSymbol(invoiceId),
+                    // accountToScVal(publicKey),
+                    // accountToScVal("CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"),
+                    // numberToi128(amount)
+                    // nativeToScVal(amountStroops.toString(), { type: 'i128' })
+                ]
+            )
+        )
+        .setTimeout(300)
+        .build();
 
     const preparedTx = await provider.prepareTransaction(tx);
     return { xdr: preparedTx.toXDR() };

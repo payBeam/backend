@@ -18,14 +18,20 @@ export const handleCreateInvoice = asyncHandler(async (req: Request, res: Respon
     const invoice = await createInvoice(amount, tokenType, title, description, merchant.id);
     const timestampMs = decodeTime(invoice.id);
     const timeInSec = Math.floor(timestampMs / 1000);
+    // console.log("timestamp", timeInSec)
 
     const oneDayInSeconds = 86400;
     const updatedTimestampSec = timeInSec + oneDayInSeconds;
 
+    const date2026 = new Date("2026-01-01T00:00:00Z");
+    const unixTimestamp2026 = Math.floor(date2026.getTime() / 1000); 
+
+    console.log("updatedTimestampSec", unixTimestamp2026)
+
 
     // create the invoice on XLM network
     // TODO : set actual due date, by incrasing createdAt by a day
-    const xdr = await prepCreateInvoice(publicKey, invoice.id, amount, updatedTimestampSec).catch((err) => {
+    const xdr = await prepCreateInvoice(publicKey, invoice.id, amount, unixTimestamp2026).catch((err) => {
         console.log("Error creating invoice on XLM network", err.message)});
 
     // TODO  if soroban fails to save the invoice, delete the invoice from the database

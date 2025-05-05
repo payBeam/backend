@@ -62,6 +62,7 @@ const allowedOrigins = [
 
 const corsOptions = {
     origin: allowedOrigins, 
+    // origin: "*"
     credentials: true, // Allow credentials (cookies)
     optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 };
