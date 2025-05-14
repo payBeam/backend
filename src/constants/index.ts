@@ -3,7 +3,7 @@ import { CipherKey } from 'crypto';
 dotenv.config();
 
 
-// * MAKES SURE THAT ALL VARIABLES ARE IN ENV BEFPRE APP STARTS
+//  MAKES SURE THAT ALL VARIABLES ARE IN ENV BEFPRE APP STARTS
 const requiredEnvVars = [
     'DATABASE_URL',
     'GOOGLE_CLIENT_SECRET',
