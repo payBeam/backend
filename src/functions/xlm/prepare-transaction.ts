@@ -123,7 +123,7 @@ export async function prepPayInvoice(publicKey: string, invoiceId: string, amoun
     })
         .addOperation(
             appContract.call(
-                "simple_pay_invoice",
+                "pay_invoice",
                 ...[
                     // 1. invoice_id: Symbol (ensure this matches contract expectations)
                     xdr.ScVal.scvSymbol(invoiceId),
