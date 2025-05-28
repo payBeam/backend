@@ -56,7 +56,9 @@ const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
     'https://paybeam.vercel.app/',
-    "https://paybeam.netlify.app"
+    "https://paybeam.netlify.app",
+    "https://getpaybeam.xyz"
+
 ];
 
 
