@@ -5,13 +5,13 @@ import { AppError } from "@/utils/AppError"
 import { User } from "@prisma/client"
 import { NextFunction, Response, Request } from "express"
 import { prepCreateInvoice } from "@/functions/xlm/prepare-transaction";
-import {decodeTime} from "ulid";
+import { decodeTime } from "ulid";
 
 
-export const handleCreateInvoice = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { title, description, tokenType, amount, publicKey } = req.body;
     console.log(req.body)
-    if ( !tokenType || !amount || !publicKey) {
+    if (!tokenType || !amount || !publicKey) {
         throw new AppError("missing parameters", 400)
     }
     const merchant = req.user as User
@@ -24,7 +24,7 @@ export const handleCreateInvoice = asyncHandler(async (req: Request, res: Respon
     const updatedTimestampSec = timeInSec + oneDayInSeconds;
 
     const date2026 = new Date("2026-01-01T00:00:00Z");
-    const unixTimestamp2026 = Math.floor(date2026.getTime() / 1000); 
+    const unixTimestamp2026 = Math.floor(date2026.getTime() / 1000);
 
     console.log("updatedTimestampSec", unixTimestamp2026)
 
@@ -32,13 +32,25 @@ export const handleCreateInvoice = asyncHandler(async (req: Request, res: Respon
     // create the invoice on XLM network
     // TODO : set actual due date, by incrasing createdAt by a day
     const xdr = await prepCreateInvoice(publicKey, invoice.id, amount, unixTimestamp2026).catch((err) => {
-        console.log("Error creating invoice on XLM network", err.message)});
+        console.log("Error creating invoice on XLM network", err.message)
+    });
 
     // TODO  if soroban fails to save the invoice, delete the invoice from the database
     if (!invoice || !xdr) throw new AppError("Error Creating Invoice", 404);
 
-    res.status(201).json(new ApiResponse("success", {xdr, invoice}))
+    res.status(201).json(new ApiResponse("success", { xdr, invoice }))
 })
+
+
+export const handleCreateInvoiceOnEVM = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const {description, amount} = req.body;
+});
+
+
+export const handleCreateInvoiceOnZETA = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const {description, amount} = req.body;
+});
+
 
 export const handleGetInvoice = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
@@ -48,6 +60,8 @@ export const handleGetInvoice = asyncHandler(async (req: Request, res: Response,
     res.status(200).json(new ApiResponse("success", invoice))
 
 })
+
+
 
 export const handleGetAllMerchantInvoices = asyncHandler(async (req: Request, res: Response) => {
 
@@ -80,3 +94,4 @@ export const handleGetTotalBalance = asyncHandler(async (req: Request, res: Resp
         res.status(200).json(new ApiResponse("success", merchant));
     }
 })
+
