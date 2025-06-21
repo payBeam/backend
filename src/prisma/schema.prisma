@@ -46,13 +46,13 @@ model AuthProvider {
 // FINANCES
 // TODO add expiry date
 model Invoice {
-  id          String      @id @default(ulid())
+  id          String    @id @default(ulid())
   amount      Float
-  token       TokenType   @default(USDC)
+  token       TokenType @default(USDC)
   title       String?
   description String?
   // paymentMode PaymentMode
-  status      Status      @default(Pending)
+  status      Status    @default(Pending)
 
   updatedAt      DateTime         @updatedAt
   invoicePayment InvoicePayment[]
@@ -64,13 +64,13 @@ model Invoice {
 model InvoicePayment {
   memo             String    @id @default(ulid())
   address          String
-  recipientAddress String     @default("") // remove this default value  before going prod
-  amount           Float      @default(0.00) // remove this default value  before going prod
+  recipientAddress String    @default("") // remove this default value  before going prod
+  amount           Float     @default(0.00) // remove this default value  before going prod
   token            TokenType
   status           Status    @default(Pending)
   invoiceId        String
   createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now()) // remove this default value  before going prod
+  updatedAt        DateTime  @default(now()) @updatedAt // remove this default value  before going prod
 
   invoice Invoice @relation(fields: [invoiceId], references: [id])
 }
@@ -78,7 +78,15 @@ model InvoicePayment {
 //ENUMs
 enum TokenType {
   USDC
+  USDT
   XLM
+  ZETA
+  ETH
+  BASE
+  BNB
+  SOL
+  TON
+  TRX
 }
 
 enum PaymentMode {
