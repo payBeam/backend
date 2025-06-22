@@ -8,7 +8,7 @@ contact:
   email: hello@getpaybeam.xyz
   url: https://getpaybeam.xyz
 paths:
-  api/users/user:
+  /api/user/users:
     get:
       summary: Get all users
       responses:
