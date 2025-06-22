@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: PayBeam API
+  version: 1.0.0
+  description: Full API Docs
+contact:
+  title: PayBeam Support
+  email: hello@getpaybeam.xyz
+  url: https://getpaybeam.xyz
+paths:
+  api/users/user:
+    get:
+      summary: Get all users
+      responses:
+        200:
+          description: A list of users
