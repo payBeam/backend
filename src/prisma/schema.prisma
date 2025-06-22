@@ -31,6 +31,9 @@ model Merchant {
   verified    Boolean @default(false)
   name        String
   description String
+  walletAddress String?
+  payoutToken  TokenType @default(USDC)
+  network      String? // e.g., "Ethereum", "Solana", "ZetaChain", etc.
 
   invoice Invoice[]
 }
