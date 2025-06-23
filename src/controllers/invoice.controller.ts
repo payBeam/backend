@@ -2,11 +2,11 @@ import { asyncHandler } from "@/middlewares/asyncHandler"
 import { createInvoice, getAllMerchantInvoices, getFilteredInvoiceSum, getInvoiceById } from "@/services/invoice.service"
 import { ApiResponse } from "@/utils/ApiResponse"
 import { AppError } from "@/utils/AppError"
-import { User } from "@prisma/client"
+import { Merchant, User } from "@prisma/client"
 import { NextFunction, Response, Request } from "express"
 import { prepCreateInvoice } from "@/functions/xlm/prepare-transaction";
 import { decodeTime } from "ulid";
-
+import { createZetaInvoice } from "@/functions/relayer/zeta"
 
 export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { title, description, tokenType, amount, publicKey } = req.body;
@@ -15,7 +15,7 @@ export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: R
         throw new AppError("missing parameters", 400)
     }
     const merchant = req.user as User
-    const invoice = await createInvoice(amount, tokenType, title, description, merchant.id);
+    const invoice = await createInvoice(amount, tokenType, description, merchant.id);
     const timestampMs = decodeTime(invoice.id);
     const timeInSec = Math.floor(timestampMs / 1000);
     // console.log("timestamp", timeInSec)
@@ -35,7 +35,7 @@ export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: R
         console.log("Error creating invoice on XLM network", err.message)
     });
 
-    // TODO  if soroban fails to save the invoice, delete the invoice from the database
+    // TODO  if soroban fails to create the invoice, delete the invoice from the database
     if (!invoice || !xdr) throw new AppError("Error Creating Invoice", 404);
 
     res.status(201).json(new ApiResponse("success", { xdr, invoice }))
@@ -43,12 +43,39 @@ export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: R
 
 
 export const handleCreateInvoiceOnEVM = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const {description, amount} = req.body;
+    const { description, amount } = req.body;
+    if (!amount || !description) {
+        throw new AppError("missing parameters", 400)
+    }
+    const user = req.user as User
+    const merchant = req.merchant as Merchant;
+    // TODO : add support for any EVM based invoices not just BASE
+    const invoice = await createInvoice(amount, "BASE", description, user.id);
+    const EVMInvoice = await createZetaInvoice(invoice, merchant);
+
+    // TODO  if relayer fails to create the invoiceonchain, delete the invoice from the database
+    if (!invoice || !EVMInvoice) throw new AppError("Error Creating Invoice", 404);
+
+    res.status(201).json(new ApiResponse("success", { EVMInvoice, invoice }))
+
 });
 
 
 export const handleCreateInvoiceOnZETA = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const {description, amount} = req.body;
+    const { description, amount } = req.body;
+    if (!amount || !description) {
+        throw new AppError("missing parameters", 400)
+    }
+    const user = req.user as User
+    const merchant = req.merchant as Merchant;
+
+    const invoice = await createInvoice(amount, "ZETA", description, user.id);
+    const zetaInvoice = await createZetaInvoice(invoice, merchant);
+
+    // TODO  if relayer fails to create the invoiceonchain, delete the invoice from the database
+    if (!invoice || !zetaInvoice) throw new AppError("Error Creating Invoice", 404);
+
+    res.status(201).json(new ApiResponse("success", { zetaInvoice, invoice }))
 });
 
 
