@@ -3,13 +3,12 @@ import { PaymentMode, PrismaClient, TokenType } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const createInvoice = async (amount: number, token: TokenType, title: string, description: string, merchantId: string) => {
+export const createInvoice = async (amount: number, token: TokenType, description: string, merchantId: string) => {
     // find if merchant already exists
     const invoice = await prisma.invoice.create({
         data: {
             amount,
             token,
-            title,
             description,
             merchantId
         }

@@ -26,14 +26,14 @@ model User {
 }
 
 model Merchant {
-  id          String  @id @unique
-  user        User    @relation(fields: [id], references: [id])
-  verified    Boolean @default(false)
-  name        String
-  description String
+  id            String    @id @unique
+  user          User      @relation(fields: [id], references: [id])
+  verified      Boolean   @default(false)
+  name          String
+  description   String
   walletAddress String?
-  payoutToken  TokenType @default(USDC)
-  network      String? // e.g., "Ethereum", "Solana", "ZetaChain", etc.
+  payoutToken   TokenType @default(USDC)
+  network       String? // e.g., "Ethereum", "Solana", "ZetaChain", etc.
 
   invoice Invoice[]
 }
