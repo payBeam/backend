@@ -106,25 +106,26 @@ export class EvmRelayer {
 
 //! Add more providers as needed
 export enum JsonRpcProvider {
-    ZETA_TESTNET = 'https://zetachain-evm.blockpi.network/v1/rpc/public',
-    BASE_TESTNET = 'https://base-testnet.blockpi.network/v1/rpc/public',
-    BASE_MAINNET = 'https://base.blockpi.network/v1/rpc/public',
+    ZETA_TESTNET = 'https://zetachain-athens-evm.blockpi.network/v1/rpc/public',
+    BASE_TESTNET = 'https://sepolia.base.org',
+    BASE_MAINNET = 'https://base.llamarpc.com',
 
 }
 
 
 export enum chainId {
-    ZETA_TESTNET = 7000,
-    BASE_TESTNET = 84531,
+    ZETA_TESTNET = 7001,
+    ZETA_MAINNET = 7000,
+    BASE_TESTNET = 84532,
     BASE_MAINNET = 8453,
 }
 
 // Add more contract addresses as needed
 export enum TokenAddress {
-    ZETA_TESTNET_ADDRESS = '0x5b3c6d8f2e1c4f7a9b3c6d8f2e1c4f7a9b3c6d8f',
-    ZETA_MAINNET_ADDRESS = '0x9b3c6d8f2e1c4f7a9b3c6d8f2e1c4f7a9b3c6d8f',
-    BASE_TESTNET_ADDRESS = '0x1234567890abcdef1234567890abcdef12345678',
-    BASE_MAINNET_ADDRESS = '0xabcdef1234567890abcdef1234567890abcdef12',
+    ZETA_TESTNET_ADDRESS = '0x5F0b1a82749cb4E2278EC87F8BF6B618dC71a8bf',
+    ZETA_MAINNET_ADDRESS = '0x5F0b1a82749cb4E2278EC87F8BF6B618dC71a8bf',
+    BASE_TESTNET_ADDRESS = '0xf4e63991E7475b659bd97Bba85f32a7259239D5d',
+    BASE_MAINNET_ADDRESS = '0x7FB8E2aE4A5923BBd8e1513945914b5AB69cdA2a',
 }
 
 // ! Add more token types as needed
