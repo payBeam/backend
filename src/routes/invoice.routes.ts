@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleCreateInvoice, handleGetTotalBalance, handleGetInvoice, handleGetAllMerchantInvoices, handleSetPaymentMode } from "@/controllers/invoice.controller"
+import { handleCreateInvoiceOnXLM, handleCreateInvoiceOnZETA, handleCreateInvoiceOnEVM, handleGetTotalBalance, handleGetInvoice, handleGetAllMerchantInvoices, handleSetPaymentMode } from "@/controllers/invoice.controller"
 const router = express.Router();
 
 //create invoice endpoint does the following thing
@@ -18,7 +18,9 @@ const router = express.Router();
 // ! invoice update will be updated from events receieved from the blockchain
 // ! hence no route will be created to update it
 
-router.post('/create', handleCreateInvoice);
+router.post('/create-on-xlm', handleCreateInvoiceOnXLM);
+router.post("/create-on-evm", handleCreateInvoiceOnEVM);
+router.post("/create-on-zeta", handleCreateInvoiceOnZETA);
 router.get("/balance", handleGetTotalBalance)
 router.get('/:id', handleGetInvoice);
 router.get('/', handleGetAllMerchantInvoices)

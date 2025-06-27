@@ -6,6 +6,7 @@
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./", // Base directory for imports
@@ -16,8 +17,11 @@
     }
   },
   "include": [
-    "src/**/*",
-    "@types"
+    "src/**/*"
+  ],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./src/types"
   ],
   "exclude": [
     "node_modules"

@@ -2,7 +2,7 @@ import 'module-alias/register';
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import routes from '@/routes/index';
+import V1Routes from '@/routes/index';
 import { errorHandler } from "@/middlewares/errorHandler";
 import { setupSwagger } from "@/docs/swagger"
 import morgan from "morgan"
@@ -63,7 +63,7 @@ const allowedOrigins = [
 
 
 const corsOptions = {
-    origin: allowedOrigins, 
+    origin: allowedOrigins,
     // origin: "*"
     credentials: true, // Allow credentials (cookies)
     optionsSuccessStatus: 200 // Some legacy browsers choke on 204
@@ -73,7 +73,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 
 // Initialize Passport
@@ -81,12 +81,12 @@ app.use(passport.initialize());
 // app.use(passport.session());
 
 
-app.use('/api', routes);
+app.use('/api/v1', V1Routes);
 setupSwagger(app);
 
 // 404 Handler
 app.all('*', (req, res, next) => {
-    next( new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(errorHandler)
