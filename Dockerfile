@@ -20,10 +20,7 @@ RUN npm run db:init
 RUN npm run build
 
 # Run migrations
-RUN npm run db:deploy:prod
-
-#Generate Prisma client
-RUN npx prisma generate
+# RUN npm run db:deploy:prod
 
 # Expose the application port
 EXPOSE 5000
