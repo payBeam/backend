@@ -6,7 +6,7 @@
     "clean": "rimraf dist",
     "prestart": "node  dist/constants/index.js",
     "dev": "npm run db:deploy && npm run db:init && nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
-    "build": "npm run clean && tsc && cp src/docs/index.yaml dist/docs/index.yaml && cp -r src/prisma/ prisma/", 
+    "build": "npm run clean && tsc && cp src/docs/index.yaml dist/docs/index.yaml && cp -r src/prisma/ dist/prisma/", 
     "dummy": "npm run db:migrate",
     "db:deploy": "cd ./src && npx prisma migrate deploy",
     "db:reset": "cd ./src && npx prisma migrate reset --force",
