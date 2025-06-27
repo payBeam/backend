@@ -24,6 +24,7 @@ export const createMerchant = async (name: string, description: string, id: stri
 
 }
 
+//TODO - ropbably should be findUnique, woth looking into
 export const getMerchantById = async (id: string) => {
     const merchant = await prisma.merchant.findFirst({
         where: {

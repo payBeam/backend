@@ -4,13 +4,13 @@ import { asyncHandler } from "./asyncHandler";
 import jwt from "jsonwebtoken";
 import { config } from "@/constants";
 import { getUserById } from "@/services/user.service";
-import { User } from "@prisma/client";
+import { Merchant, User } from "@prisma/client";
 import { getMerchantById } from "@/services/merchant.service";
 
 
 export const ensureAuthenticated = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(" ")[1];
-    console.log("token",token)
+    console.log("token", token)
 
     if (!token) {
         throw new AppError("Not authenticated", 401);
@@ -31,6 +31,10 @@ export const ensureMerchant = asyncHandler(async (req: Request, res: Response, n
     const user = req.user as User;
     const isMerchant = await getMerchantById(user?.id);
     if (isMerchant) {
+        // req.merchant = isMerchant;
+        // TODO - TypeScript should not allow directly assigning to req.merchant in (types/exppress/index.d.ts)
+        (req as Request & { merchant?: Merchant }).merchant = isMerchant;
+
         next()
 
     } else {
