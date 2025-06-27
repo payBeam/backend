@@ -19,8 +19,14 @@ RUN npm run db:init
 # Build the TypeScript project
 RUN npm run build
 
+# Declare a build-time variable
+ARG DATABASE_URL
+
+# Set it as an environment variable
+ENV DATABASE_URL=${DATABASE_URL}
+
 # Run migrations
-# RUN npm run db:deploy:prod
+RUN npm run db:deploy:prod
 
 # Expose the application port
 EXPOSE 5000
