@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Generate Prisma Client
-RUN npm db:init
+RUN npm run db:init
 
 # Build the TypeScript project
 RUN npm run build
