@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Install Prisma CLI globally
+RUN npx prisma generate
+
 # Build the TypeScript project
 RUN npm run build
 
