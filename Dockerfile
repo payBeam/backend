@@ -13,11 +13,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Run migrations and generate Prisma client
-RUN npm run db:deploy:prod
-
 # Build the TypeScript project
 RUN npm run build
+
+# Run migrations and generate Prisma client
+RUN npm run db:deploy:prod
 
 # Expose the application port
 EXPOSE 5000
