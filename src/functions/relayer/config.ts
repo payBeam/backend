@@ -66,7 +66,7 @@ export class EvmRelayer {
             maxPriorityFeePerGas: ethers.parseUnits("2", "gwei"),
             chainId: getChainId(this.network),
         }));
-      }
+    }
 
     async signTransaction(txData: ethers.TransactionRequest): Promise<string> {
         try {
@@ -96,7 +96,7 @@ export class EvmRelayer {
         const contract = new ethers.Contract(contractAddress, abi, this.wallet);
         const tx = await contract[methodName](...args);
         return await tx.wait();
-      }
+    }
 
 
 
@@ -107,6 +107,7 @@ export class EvmRelayer {
 //! Add more providers as needed
 export enum JsonRpcProvider {
     ZETA_TESTNET = 'https://zetachain-athens-evm.blockpi.network/v1/rpc/public',
+    ZETA_MAINNET = 'https://zetachain-athens-evm.blockpi.network/v1/rpc/public',
     BASE_TESTNET = 'https://sepolia.base.org',
     BASE_MAINNET = 'https://base.llamarpc.com',
 
@@ -140,13 +141,15 @@ export function getTokenAddress(token: TokenType, isTestnet: boolean): string | 
         default:
             return undefined;
     }
-  }
+}
 
-  // TODO : Add more cases as needed
+// TODO : Add more cases as needed
 export function getChainId(network: keyof typeof JsonRpcProvider): number {
     switch (network) {
         case 'ZETA_TESTNET':
             return chainId.ZETA_TESTNET;
+        case 'ZETA_MAINNET':
+            return chainId.ZETA_MAINNET;
         case 'BASE_TESTNET':
             return chainId.BASE_TESTNET;
         case 'BASE_MAINNET':

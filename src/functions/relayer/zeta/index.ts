@@ -16,7 +16,7 @@ export async function createZetaInvoice(invoice: Invoice, merchant: Merchant) {
         // uses paybeam wallet address if the merchant hasn't set a wallet address yet
         // TODO: make surre you can only withdraw if the wallet address isn't for paybeam and
         // TODO: make sure we valiadte th wallat address and chain well before withdraw;ing it for them
-        const prepTx = await relayer.prepareTransaction(config.ZETA_CONTRACT, abi, "createInvoice", [ethers.id(invoice.id), getTokenAddress(merchant.payoutToken, true), ethers.parseUnits(invoice.amount.toString(), 18), invoice.description, merchant.walletAddress ? merchant.walletAddress : config.RELAYER_ADDRESS, config.RELAYER_ADDRESS]);
+        const prepTx = await relayer.prepareTransaction(config.ZETA_CONTRACT, abi, "createInvoice", [ethers.id(invoice.id), getTokenAddress(/* merchant.payoutToken */ "ZETA", true), ethers.parseUnits(invoice.amount.toString(), 18), invoice.description, config.RELAYER_ADDRESS, config.RELAYER_ADDRESS]);
 
         // *-------------
         // * SIGN TRANSACTION
