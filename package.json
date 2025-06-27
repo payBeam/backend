@@ -14,7 +14,7 @@
     "db:init": "cd ./src && npx prisma generate",
     "start": "node dist/server.js",
     "start:prod": "npm run db:deploy:prod && npm run start",
-    "db:deploy:prod": "npx prisma migrate deploy",
+    "db:deploy:prod": "cd ./dist && npx prisma migrate deploy",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build"
   },
   "_moduleAliases": {
