@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Run migrations and generate Prisma client
-RUN cd ./dist && npx prisma migrate deploy
+RUN npm run db:deploy:prod
 
 # Build the TypeScript project
 RUN npm run build
