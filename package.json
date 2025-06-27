@@ -4,6 +4,7 @@
   "main": "./src/server.ts",
   "scripts": {
     "clean": "rimraf dist",
+    "prepare": "npx prisma generate --schema=dist/prisma/schema.prisma",
     "prestart": "node  dist/constants/index.js",
     "dev": "npm run db:deploy && npm run db:init && nodemon --legacy-watch  -r tsconfig-paths/register src/server.ts",
     "build": "npm run clean && tsc && cp src/docs/index.yaml dist/docs/index.yaml && cp -r src/prisma/ dist/prisma/", 
