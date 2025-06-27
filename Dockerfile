@@ -13,10 +13,13 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Generate Prisma Client
+RUN npm db:init
+
 # Build the TypeScript project
 RUN npm run build
 
-# Run migrations and generate Prisma client
+# Run migrations
 RUN npm run db:deploy:prod
 
 #Generate Prisma client
