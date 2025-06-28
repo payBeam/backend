@@ -10,7 +10,7 @@
     "dummy": "npm run db:migrate",
     "db:deploy": "cd ./src && npx prisma migrate deploy",
     "db:reset": "cd ./src && npx prisma migrate reset --force",
-    "db:migrate": "cd ./src && npx prisma migrate dev --name add_wallet_info_to_merchant_schema",
+    "db:migrate": "cd ./src && npx prisma migrate dev --name update_invoice_schama_added_relayer_removed_title",
     "db:init": "cd ./src && npx prisma generate",
     "start": "node dist/server.js",
     "start:prod": "npm run db:deploy:prod && npm run start",

@@ -15,7 +15,7 @@ export const handleCreateInvoiceOnXLM = asyncHandler(async (req: Request, res: R
         throw new AppError("missing parameters", 400)
     }
     const merchant = req.user as User
-    const invoice = await createInvoice(amount, tokenType, description, merchant.id);
+    const invoice = await createInvoice(amount, description, merchant.id);
     const timestampMs = decodeTime(invoice.id);
     const timeInSec = Math.floor(timestampMs / 1000);
     // console.log("timestamp", timeInSec)
@@ -51,7 +51,7 @@ export const handleCreateInvoiceOnEVM = asyncHandler(async (req: Request, res: R
     // ! - TypeScript should not allow directly assigning to req.merchant in (types/exppress/index.d.ts)
     const merchant = (req as Request & { merchant?: Merchant }).merchant!
     // TODO : add support for any EVM based invoices not just BASE
-    const invoice = await createInvoice(amount, "BASE", description, user.id);
+    const invoice = await createInvoice(amount, description, user.id);
     const EVMInvoice = await createZetaInvoice(invoice, merchant);
 
     // TODO  if relayer fails to create the invoiceonchain, delete the invoice from the database
@@ -74,7 +74,7 @@ export const handleCreateInvoiceOnZETA = asyncHandler(async (req: Request, res: 
 
     // ! "ZETA" should not be hardcoded, 
     // the preferred settlement token should be gotten from the merhcant profile once the feature is ready
-    const invoice = await createInvoice(amount, "ZETA", description, user.id);
+    const invoice = await createInvoice(amount, description, user.id);
     const zetaInvoice = await createZetaInvoice(invoice, merchant);
 
     // TODO  if relayer fails to create the invoiceonchain, delete the invoice from the database

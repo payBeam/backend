@@ -3,12 +3,11 @@ import { PaymentMode, PrismaClient, TokenType } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const createInvoice = async (amount: number, token: TokenType, description: string, merchantId: string) => {
+export const createInvoice = async (amount: number, description: string, merchantId: string) => {
     // find if merchant already exists
     const invoice = await prisma.invoice.create({
         data: {
             amount,
-            token,
             description,
             merchantId
         }
@@ -38,10 +37,10 @@ export const getAllMerchantInvoices = async (id: string) => {
     return invoices
 }
 
+// TODO, this should be the balcne of paid invoices not created invoices
 export const getFilteredInvoiceSum = async (
     merchantId: string
 ) => {
-    console.log("got here")
     const result = await prisma.invoice.aggregate({
         where: {
             merchantId: merchantId,
@@ -51,7 +50,7 @@ export const getFilteredInvoiceSum = async (
             amount: true,
         },
     });
-    console.log("balance",result)
+    // console.log("balance",result)
 
     return result._sum.amount || 0;
 }

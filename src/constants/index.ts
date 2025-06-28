@@ -57,6 +57,7 @@ const RELAYER_PRIVATE_KEY = process.env.RELAYER_PRIVATE_KEY;
 const RELAYER_ADDRESS = "0xC282Cb7cE6c175582B84BF94C61258Bb5cDCA88e";
 // TODO: this should change based on environment, there should be for testnet and for mainnet
 const ZETA_CONTRACT = "0x8e827a12C78dED9459268eb05cce2C5d709FE6AF"
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 export const config = {
     GOOGLE_CLIENT_ID,
@@ -72,6 +73,7 @@ export const config = {
     USDC_ISSUER,
     RELAYER_PRIVATE_KEY,
     RELAYER_ADDRESS,
-    ZETA_CONTRACT
+    ZETA_CONTRACT,
+    ZERO_ADDRESS
     // USDC_TRUSTLINE_CONTRACT
 }
