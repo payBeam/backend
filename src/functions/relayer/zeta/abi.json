@@ -102,9 +102,9 @@
             },
             {
                 "indexed": true,
-                "internalType": "address",
+                "internalType": "string",
                 "name": "merchantId",
-                "type": "address"
+                "type": "string"
             },
             {
                 "indexed": false,
@@ -139,9 +139,9 @@
             },
             {
                 "indexed": true,
-                "internalType": "address",
+                "internalType": "string",
                 "name": "merchantId",
-                "type": "address"
+                "type": "string"
             },
             {
                 "indexed": false,
@@ -239,6 +239,31 @@
             },
             {
                 "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "OverpaymentDetected",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "payer",
+                "type": "address"
+            },
+            {
+                "indexed": false,
                 "internalType": "address",
                 "name": "token",
                 "type": "address"
@@ -276,6 +301,31 @@
             }
         ],
         "name": "PingEvent",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "recipient",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "RefundProcessed",
         "type": "event"
     },
     {
@@ -406,9 +456,9 @@
                 "type": "address"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "merchantId",
-                "type": "address"
+                "type": "string"
             },
             {
                 "components": [
@@ -529,6 +579,19 @@
                 "internalType": "bytes32",
                 "name": "invoiceId",
                 "type": "bytes32"
+            }
+        ],
+        "name": "claimRefund",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
             },
             {
                 "internalType": "address",
@@ -551,9 +614,9 @@
                 "type": "address"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "merchantId",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "createInvoice",
@@ -610,6 +673,88 @@
         "inputs": [
             {
                 "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "payer",
+                "type": "address"
+            }
+        ],
+        "name": "getPayerPaymentDetails",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "amountPaid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "chains",
+                "type": "bytes32[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "amounts",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "payer",
+                "type": "address"
+            }
+        ],
+        "name": "getRefundableAmount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "refundableAmount",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "invoiceId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "getTotalPaid",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "totalPaid",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
                 "name": "",
                 "type": "bytes32"
             },
@@ -625,6 +770,30 @@
                 "internalType": "bytes32",
                 "name": "",
                 "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "invoiceReceivedPerToken",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -656,9 +825,9 @@
                 "type": "address"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "merchantId",
-                "type": "address"
+                "type": "string"
             },
             {
                 "internalType": "bool",
@@ -669,11 +838,6 @@
                 "internalType": "bool",
                 "name": "withdrawn",
                 "type": "bool"
-            },
-            {
-                "internalType": "uint256",
-                "name": "totalReceived",
-                "type": "uint256"
             },
             {
                 "internalType": "uint256",
@@ -697,9 +861,9 @@
     {
         "inputs": [
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "merchantBalance",
@@ -836,6 +1000,30 @@
         "name": "onRevert",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "overpayments",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {

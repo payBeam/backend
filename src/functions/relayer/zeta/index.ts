@@ -17,7 +17,7 @@ export async function createZetaInvoice(invoice: Invoice, merchant: Merchant) {
         // TODO: make surre you can only withdraw if the wallet address isn't for paybeam and
         // TODO: make sure we valiadte th wallat address and chain well before withdraw;ing it for them
         // ! zeta equivalent of amount is what should be ent to the smart contract not raw amount
-        const prepTx = await relayer.prepareTransaction(config.ZETA_CONTRACT, abi, "createInvoice", [ethers.id(invoice.id), getTokenAddress(/* merchant.payoutToken */ "ZETA", true), ethers.parseUnits(invoice.amount.toString(), 18), invoice.description, config.ZERO_ADDRESS, config.ZERO_ADDRESS]);
+        const prepTx = await relayer.prepareTransaction(config.ZETA_CONTRACT, abi, "createInvoice", [ethers.id(invoice.id), getTokenAddress(/* merchant.payoutToken */ "ZETA", true), ethers.parseUnits(invoice.amount.toString(), 18), invoice.description, config.ZERO_ADDRESS, merchant.id]);
 
         // *-------------
         // * SIGN TRANSACTION
